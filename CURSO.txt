@@ -1,0 +1,14 @@
+* Podemos colocar controller na main 
+
+* Nos nossos services é normal colocarmos toda a parte de regra de negócio e nao no controller
+
+* DTO serve para fazer a verificação de entrada dos dadosa (Spring validation é a dapendencia que devemos usar para isso
+
+@ReponseBody = Recebe dados via Json
+@Valid = faz as verificações do DTO
+@Transactional = salvar nas operações de crud 
+
+* Temos metodo para tudo no JPA com relação ao banco
+
+
+
