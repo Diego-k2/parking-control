@@ -2,8 +2,12 @@ package br.com.pi.parkingcontrol.services;
 
 import br.com.pi.parkingcontrol.model.ParkingSpotModel;
 import br.com.pi.parkingcontrol.repository.ParkingSpotRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ParkinSpotService {
@@ -25,6 +29,17 @@ public class ParkinSpotService {
         return parkingSpotRepository.save(parkingSpotModel);
     }
 
+    @Transactional
+    public List<ParkingSpotModel> findAll(){
+        return parkingSpotRepository.findAll();
+    }
+
+    @Transactional
+    public Optional<ParkingSpotModel> findByParkingSpotNumber(String parkingSpotNumber){
+        return parkingSpotRepository.findByParkingSpotNumber(parkingSpotNumber);
+    }
+
+    //VERIFICAM SE EXISTE ALGO COM ESSES DADOS NO BANCO
     @Transactional
     public boolean existsByLicensePlateCar(String licensePlateCar){
         return parkingSpotRepository.existsByLicensePlateCar(licensePlateCar);

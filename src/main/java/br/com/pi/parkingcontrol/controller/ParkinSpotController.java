@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -27,7 +29,7 @@ public class ParkinSpotController {
     @PostMapping //REGISTRANDO NOVAS VAGAS
     public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto){
 
-        if(parkinSpotService.existsByLicensePlateCar(parkingSpotDto.getLicensePlateCar())){
+        if(parkinSpotService.existsByLicensePlateCar(parkingSpotDto.getLicensePlateCar())){ //METODOS QUE VERIFICAM SE EXISTE ALGO NO BANCO COM ESSES DADOS
             return ResponseEntity.status(HttpStatus.CONFLICT).body("CONFLITO: Essa licença ja está em uso"
                     + parkingSpotDto.getLicensePlateCar());
         }
@@ -44,6 +46,21 @@ public class ParkinSpotController {
         parkingSpotModel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
         return ResponseEntity.status(HttpStatus.CREATED).body(parkinSpotService.save(parkingSpotModel));
     }
+
+    @GetMapping
+    public ResponseEntity<List<ParkingSpotModel>> getAllParkingSpot(){
+        return ResponseEntity.status(HttpStatus.OK).body(parkinSpotService.findAll()) ;
+    }
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<Object> getParkingSpotBySpotNumber(@PathVariable String id){
+        Optional<ParkingSpotModel> parkingSpotModelOptional = parkinSpotService.findByParkingSpotNumber(id);
+        if(!parkingSpotModelOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("VAGA NAO EXISTE");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(parkingSpotModelOptional);
+    }
+
 
 
 
