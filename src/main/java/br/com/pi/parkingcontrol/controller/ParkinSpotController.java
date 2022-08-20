@@ -53,7 +53,7 @@ public class ParkinSpotController {
         return ResponseEntity.status(HttpStatus.OK).body(parkinSpotService.findAll()) ;
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getParkingSpotBySpotNumber(@PathVariable String id){
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkinSpotService.findByParkingSpotNumber(id);
         if(!parkingSpotModelOptional.isPresent()){
@@ -62,7 +62,7 @@ public class ParkinSpotController {
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotModelOptional);
     }
 
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> delParkingSpotById(@PathVariable String id){
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkinSpotService.findById(UUID.fromString(id));
         if(!parkingSpotModelOptional.isPresent()){
@@ -73,6 +73,27 @@ public class ParkinSpotController {
     }
 
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Object> updateById(@PathVariable String id,
+                                             @RequestBody @Valid ParkingSpotDto parkingSpotDto){
+        Optional<ParkingSpotModel> parkingSpotModelOptional = parkinSpotService.findById(UUID.fromString(id));
+        if(!parkingSpotModelOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("VAGA NÃO EXISTE");
+        }
+
+        var parkingSpotModel = parkingSpotModelOptional.get();
+
+        parkingSpotModel.setParkingSpotNumber(parkingSpotDto.getParkingSpotNumber());
+        parkingSpotModel.setLicensePlateCar(parkingSpotDto.getLicensePlateCar());
+        parkingSpotModel.setModelCar(parkingSpotDto.getModelCar());
+        parkingSpotModel.setBradCar(parkingSpotDto.getBradCar());
+        parkingSpotModel.setResponsibleName(parkingSpotDto.getResponsibleName());
+        parkingSpotModel.setApatarment(parkingSpotDto.getApatarment());
+        parkingSpotModel.setBlock(parkingSpotDto.getBlock());
+
+        return ResponseEntity.status(HttpStatus.OK).body(parkinSpotService.save(parkingSpotModel));
+
+    }
 
 
 

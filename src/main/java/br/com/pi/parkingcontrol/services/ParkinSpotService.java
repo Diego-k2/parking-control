@@ -2,7 +2,6 @@ package br.com.pi.parkingcontrol.services;
 
 import br.com.pi.parkingcontrol.model.ParkingSpotModel;
 import br.com.pi.parkingcontrol.repository.ParkingSpotRepository;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +18,6 @@ public class ParkinSpotService {
 //    Ou
 
     final ParkingSpotRepository parkingSpotRepository;
-
     public ParkinSpotService(ParkingSpotRepository parkingSpotRepository) {
         this.parkingSpotRepository = parkingSpotRepository;
     }
@@ -66,12 +64,5 @@ public class ParkinSpotService {
     public boolean existsByApatarmentAndBlock(String apartament, String block){
         return  parkingSpotRepository.existsByApatarmentAndBlock(apartament, block);
     }
-
-
-
-
-
-
-
 
 }
