@@ -44,7 +44,7 @@ public class ParkinSpotController {
 
         var parkingSpotModel = new ParkingSpotModel();
         BeanUtils.copyProperties(parkingSpotDto, parkingSpotModel); //Faz a conversão DTO para ParkSpotModel
-        parkingSpotModel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
+        parkingSpotModel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC-3")));
         return ResponseEntity.status(HttpStatus.CREATED).body(parkinSpotService.save(parkingSpotModel));
     }
 
