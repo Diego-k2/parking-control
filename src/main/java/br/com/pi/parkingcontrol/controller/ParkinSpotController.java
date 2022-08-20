@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -61,6 +62,15 @@ public class ParkinSpotController {
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotModelOptional);
     }
 
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<Object> delParkingSpotById(@PathVariable String id){
+        Optional<ParkingSpotModel> parkingSpotModelOptional = parkinSpotService.findById(UUID.fromString(id));
+        if(!parkingSpotModelOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("VAGA NÃO EXISTE");
+        }
+        parkinSpotService.deleteById(parkingSpotModelOptional.get());
+        return ResponseEntity.status(HttpStatus.OK).body("VAGA EXCLUIDA DE NOSSO BANCO DE DADOS");
+    }
 
 
 

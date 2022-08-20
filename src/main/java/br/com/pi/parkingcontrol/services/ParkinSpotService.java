@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ParkinSpotService {
@@ -34,6 +35,17 @@ public class ParkinSpotService {
         return parkingSpotRepository.findAll();
     }
 
+    @Transactional
+    public void deleteById(ParkingSpotModel parkingSpotModel){
+        parkingSpotRepository.deleteById(parkingSpotModel.getId());
+    }
+
+    @Transactional
+    public Optional<ParkingSpotModel> findById(UUID id){
+        return parkingSpotRepository.findById(id);
+    }
+
+    //PROCURA PELO NUMERO DA VAGA
     @Transactional
     public Optional<ParkingSpotModel> findByParkingSpotNumber(String parkingSpotNumber){
         return parkingSpotRepository.findByParkingSpotNumber(parkingSpotNumber);
