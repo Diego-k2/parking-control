@@ -8,6 +8,7 @@
 @Valid = faz as verificações do DTO
 @Transactional = salvar nas operações de crud 
 @PathVariable = pega dado direto da URL
+@PeageableDefault = Paginação
 
 * Temos metodo para tudo no JPA com relação ao banco
 
