@@ -1,0 +1,8 @@
+*Vulnerabilidade na Autenticação e Autorização
+	Quando um usuario consegue receber dados de outro usuario 
+
+*Crossite Request Forgery - CSRF
+	Acesso de outros usuarios remotamente (UM LADRAO DE DADOS)
+
+** Basic Authentication 
+	-401 - Nao autorizado
