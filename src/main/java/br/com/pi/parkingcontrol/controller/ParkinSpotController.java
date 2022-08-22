@@ -6,6 +6,7 @@ import br.com.pi.parkingcontrol.services.ParkinSpotService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,6 +28,7 @@ public class ParkinSpotController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')") //CONTROLANDO ACESSO PELO CONTROLLER
     @PostMapping //REGISTRANDO NOVAS VAGAS
     public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto){
 
@@ -48,11 +50,13 @@ public class ParkinSpotController {
         return ResponseEntity.status(HttpStatus.CREATED).body(parkinSpotService.save(parkingSpotModel));
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')") //CONTROLANDO ACESSO PELO CONTROLLER
     @GetMapping
     public ResponseEntity<List<ParkingSpotModel>> getAllParkingSpot(){
         return ResponseEntity.status(HttpStatus.OK).body(parkinSpotService.findAll()) ;
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')") //CONTROLANDO ACESSO PELO CONTROLLER
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getParkingSpotBySpotNumber(@PathVariable String id){
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkinSpotService.findByParkingSpotNumber(id);
@@ -62,6 +66,7 @@ public class ParkinSpotController {
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotModelOptional);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')") //CONTROLANDO ACESSO PELO CONTROLLER
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> delParkingSpotById(@PathVariable String id){
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkinSpotService.findById(UUID.fromString(id));
@@ -72,7 +77,7 @@ public class ParkinSpotController {
         return ResponseEntity.status(HttpStatus.OK).body("VAGA EXCLUIDA DE NOSSO BANCO DE DADOS");
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')") //CONTROLANDO ACESSO PELO CONTROLLER
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> updateById(@PathVariable String id,
                                              @RequestBody @Valid ParkingSpotDto parkingSpotDto){
